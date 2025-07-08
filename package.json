@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/miARTre/taskapp#readme",
   "dependencies": {
-    "mongodb": "^6.17.0"
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.2"
   }
 }
