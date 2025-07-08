@@ -17,6 +17,28 @@ async function main() {
 
   const users = db.collection("users");
   const tasks = db.collection("tasks");
+
+  const updateAll = await tasks.updateMany(
+    { completed: false },
+    {
+      $set: { completed: true },
+    }
+  );
+
+  // const update = await users
+  //   .updateOne(
+  //     { _id: new ObjectId("686ce97e19ae2bb635fd60ef") },
+  //     {
+  //       // $set: { name: "Miki" },
+  //       $inc: { age: 1 },
+  //     }
+  //   )
+  //   .then((result) => {
+  //     console.log(result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 }
 
 main()
