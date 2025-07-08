@@ -18,27 +18,10 @@ async function main() {
   const users = db.collection("users");
   const tasks = db.collection("tasks");
 
-  const updateAll = await tasks.updateMany(
-    { completed: false },
-    {
-      $set: { completed: true },
-    }
-  );
-
-  // const update = await users
-  //   .updateOne(
-  //     { _id: new ObjectId("686ce97e19ae2bb635fd60ef") },
-  //     {
-  //       // $set: { name: "Miki" },
-  //       $inc: { age: 1 },
-  //     }
-  //   )
-  //   .then((result) => {
-  //     console.log(result);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
+  // 5. Deleting Documents
+  const deleteOne = await users.deleteOne({ name: "Miki", age: 28 });
+  const deleteOneTasks = await tasks.deleteOne({ _id: new ObjectId('686cebf6853061194852a84e')});
+  const deleteMany = await users.deleteMany({ age: 28 });
 }
 
 main()
