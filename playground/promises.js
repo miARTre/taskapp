@@ -5,8 +5,6 @@
 //   }, 2000);
 // });
 
-const { set } = require("mongoose");
-
 // doWorkPromise
 //   .then((result) => {
 //     console.log("Success!", result);
