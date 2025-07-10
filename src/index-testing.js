@@ -159,15 +159,29 @@ app.listen(PORT, () => {
 
 // myFun();
 
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 
-const myFun = async (params) => {
-  const token = jwt.sign({ _id: "abc123" }, "thisismynewcoruse", {expiresIn: '7 days'});
-  console.log(token);
+// const myFun = async (params) => {
+//   const token = jwt.sign({ _id: "abc123" }, "thisismynewcoruse", {expiresIn: '7 days'});
+//   console.log(token);
 
-  const data = jwt.verify(token, "thisismynewcoruse");
-  console.log(data)
+//   const data = jwt.verify(token, "thisismynewcoruse");
+//   console.log(data)
 
-};
+// };
 
-myFun();
+// myFun();
+
+  // How toJSON works under the hood
+// const pet = {
+//   name: "Logi"
+// }
+
+// pet.toJSON = function () {
+//   // console.log(this)
+//   // return this
+//   return {}
+
+// }
+
+// console.log(JSON.stringify(pet));
