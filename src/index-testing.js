@@ -7,6 +7,20 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+  // Middleware
+  
+// app.use((req, res, next) => {
+//   if (req.method === "GET") {
+//     res.send("GET requests are disabled");
+//   } else {
+//     next();
+//   }
+// });
+
+// app.use((req, res, next) => {
+//   res.status(503).send("The site in under maintance, please try back soon!");
+// });
+
 app.use(express.json());
 
 app.post("/users", async (req, res) => {
