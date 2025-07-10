@@ -15,4 +15,17 @@ app.listen(PORT, () => {
   console.log("Server run on PORT:", PORT);
 });
 
+const Task = require("./models/task");
+const User = require("./models/user");
 
+const main = async () => {
+  // const task = await Task.findById('686fc709defa05b4d43f8357');
+  // await task.populate('owner');
+  // console.log(task.owner)
+
+  const user = await User.findById("686fc700defa05b4d43f8349");
+  await user.populate('tasks')
+  console.log(user.tasks)
+};
+
+main();
