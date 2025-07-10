@@ -129,3 +129,31 @@ app.get("/tasks/:id", async (req, res) => {
 app.listen(PORT, () => {
   console.log("Server run on PORT:", PORT);
 });
+
+// const bcrypt = require("bcryptjs");
+
+// const myFun = async () => {
+// const password = "Red1234!";
+// const hashedPassword = await bcrypt.hash(password, 8);
+
+// console.log(password);
+// console.log(hashedPassword);
+
+// const isMatch = await bcrypt.compare('red1234!', hashedPassword);
+// console.log(isMatch)
+// };
+
+// myFun();
+
+const jwt = require("jsonwebtoken");
+
+const myFun = async (params) => {
+  const token = jwt.sign({ _id: "abc123" }, "thisismynewcoruse", {expiresIn: '7 days'});
+  console.log(token);
+
+  const data = jwt.verify(token, "thisismynewcoruse");
+  console.log(data)
+
+};
+
+myFun();
