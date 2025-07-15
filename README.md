@@ -118,4 +118,4 @@ Test coverage includes:
 ---
 
 > 💬 Perfect for practicing real-world API development, JWT-based auth, file uploads, and writing clean, testable Node.js code.
-```
+
