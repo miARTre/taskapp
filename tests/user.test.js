@@ -4,10 +4,6 @@ const mongoose = require("mongoose");
 const User = require("../src/models/user");
 const request = require("supertest");
 const app = require("../src/app");
-jest.mock("@sendgrid/mail", () => ({
-  setApiKey: jest.fn(),
-  send: jest.fn().mockResolvedValue([{ statusCode: 202 }]),
-}));
 
 const userOneId = new mongoose.Types.ObjectId();
 
@@ -104,6 +100,41 @@ test("should delete account for user", async () => {
 
 test("should not delete account for user", async () => {
   await request(app).delete("/users/me").send().expect(401);
+});
+
+test("should upload avatar image", async () => {
+  await request(app)
+    .post("/users/me/avatar")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .attach("avatar", "tests/fixtures/profil-pic.jpg")
+    .expect(200);
+
+  const user = await User.findById(userOneId);
+  expect(user.avatar).toEqual(expect.any(Buffer));
+  // expect({}).toEqual({})
+});
+
+test("should update valid user fields", async () => {
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      name: "Mire",
+    })
+    .expect(200);
+
+  const user = await User.findById(userOneId);
+  expect(user.name).toEqual("Mire");
+});
+
+test("should not update invalid user fields", async () => {
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      location: "Sarajevo",
+    })
+    .expect(400);
 });
 
 afterAll(async () => {
