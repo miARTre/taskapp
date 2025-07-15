@@ -28,25 +28,45 @@ beforeEach(async () => {
   await new User(userOne).save();
 });
 
-test("should first", async () => {
-  await request(app)
+test("should singup a new user", async () => {
+  const response = await request(app)
     .post("/users")
     .send({
       name: "Mire Test",
-      email: "mirnesbb@gmail.com",
+      email: "test1@test.com",
       password: "MyPass777!",
     })
     .expect(201);
+
+  // Assert that the database was changed correctly
+  const user = await User.findById(response.body.user._id);
+  expect(user).not.toBeNull();
+
+  // Assertions about the response
+  expect(response.body).toMatchObject({
+    user: {
+      name: "Mire Test",
+      email: "test1@test.com",
+    },
+    token: user.tokens[0].token,
+  });
+
+  expect(user.password).not.toBe("MyPass777!");
+
+  // expect(response.body.user.name).toBe("Mire Test")
 });
 
 test("should login existing user", async () => {
-  await request(app)
+  const response = await request(app)
     .post("/users/login")
     .send({
-      email: "test@test.com",
-      password: "12345what",
+      email: userOne.email,
+      password: userOne.password,
     })
     .expect(200);
+
+  const user = await User.findById(userOneId);
+  expect(response.body.token).toBe(user.tokens[1].token);
 });
 
 test("should return error for wrong login credentials", async () => {
@@ -77,8 +97,15 @@ test("should delete account for user", async () => {
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .send()
     .expect(200);
+
+  const user = await User.findById(userOneId);
+  expect(user).toBeNull();
 });
 
 test("should not delete account for user", async () => {
   await request(app).delete("/users/me").send().expect(401);
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
 });
