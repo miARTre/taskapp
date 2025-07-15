@@ -1,28 +1,10 @@
-require("dotenv").config({ path: "./src/config/test.env" });
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
-const User = require("../src/models/user");
+require("dotenv").config({ path: "./src/config/test.env", quiet: true });
 const request = require("supertest");
 const app = require("../src/app");
+const User = require("../src/models/user");
+const { userOneId, userOne, setupDatabase } = require("./fixtures/db");
 
-const userOneId = new mongoose.Types.ObjectId();
-
-const userOne = {
-  _id: userOneId,
-  name: "Test User",
-  email: "test@test.com",
-  password: "12345what",
-  tokens: [
-    {
-      token: jwt.sign({ _id: userOneId }, process.env.JWT_SECRET),
-    },
-  ],
-};
-
-beforeEach(async () => {
-  await User.deleteMany();
-  await new User(userOne).save();
-});
+beforeEach(setupDatabase);
 
 test("should singup a new user", async () => {
   const response = await request(app)
@@ -135,8 +117,4 @@ test("should not update invalid user fields", async () => {
       location: "Sarajevo",
     })
     .expect(400);
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
 });
