@@ -50,7 +50,7 @@ taskapp/
 ├── .gitignore              # Ignores env, node_modules, etc.
 ├── package.json            # Scripts and dependencies
 └── README.md
-
+```
 
 ---
 
